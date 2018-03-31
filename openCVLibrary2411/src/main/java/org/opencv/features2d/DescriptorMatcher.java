@@ -436,8 +436,10 @@ public class DescriptorMatcher {
         Mat matches_mat = matches;
         match_1(nativeObj, queryDescriptors.nativeObj, trainDescriptors.nativeObj, matches_mat.nativeObj);
 
+
         return;
     }
+
 
 
     //

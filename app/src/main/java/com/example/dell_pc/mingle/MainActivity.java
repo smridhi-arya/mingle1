@@ -17,37 +17,38 @@ public class MainActivity extends AppCompatActivity {
     }
 }*/
 import android.app.Activity;
-        import android.content.res.AssetManager;
-        import android.graphics.Bitmap;
-        import android.graphics.BitmapFactory;
-        import android.os.Bundle;
-        import android.util.Log;
-        import android.view.SurfaceView;
-        import android.view.WindowManager;
-        import android.widget.TextView;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.SurfaceView;
+import android.view.WindowManager;
 
-        import org.opencv.android.BaseLoaderCallback;
-        import org.opencv.android.CameraBridgeViewBase;
-        import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
-        import org.opencv.android.LoaderCallbackInterface;
-        import org.opencv.android.OpenCVLoader;
-        import org.opencv.android.Utils;
-        import org.opencv.core.DMatch;
-        import org.opencv.core.Mat;
-        import org.opencv.core.MatOfByte;
-        import org.opencv.core.MatOfDMatch;
-        import org.opencv.core.MatOfKeyPoint;
-        import org.opencv.core.Scalar;
-        import org.opencv.features2d.DescriptorExtractor;
-        import org.opencv.features2d.DescriptorMatcher;
-        import org.opencv.features2d.FeatureDetector;
-        import org.opencv.features2d.Features2d;
-        import org.opencv.imgproc.Imgproc;
+import org.opencv.android.BaseLoaderCallback;
+import org.opencv.android.CameraBridgeViewBase;
+import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
+import org.opencv.android.LoaderCallbackInterface;
+import org.opencv.android.OpenCVLoader;
+import org.opencv.android.Utils;
 
-        import java.io.IOException;
-        import java.io.InputStream;
-        import java.util.LinkedList;
-        import java.util.List;
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfByte;
+import org.opencv.core.MatOfDMatch;
+import org.opencv.core.MatOfKeyPoint;
+import org.opencv.core.Scalar;
+
+import org.opencv.features2d.DMatch;
+import org.opencv.features2d.DescriptorExtractor;
+import org.opencv.features2d.DescriptorMatcher;
+import org.opencv.features2d.FeatureDetector;
+import org.opencv.features2d.Features2d;
+import org.opencv.imgproc.Imgproc;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.LinkedList;
+import java.util.List;
 
 
 public class MainActivity extends Activity implements CameraBridgeViewBase.CvCameraViewListener2 {
@@ -55,8 +56,8 @@ public class MainActivity extends Activity implements CameraBridgeViewBase.CvCam
     private static final String TAG = "OCVSample::Activity";
     private int w, h;
     private CameraBridgeViewBase mOpenCvCameraView;
-    TextView tvName;
-    Scalar RED = new Scalar(255, 0, 0);
+    //TextView tvName;
+Scalar RED = new Scalar(255, 0, 0);
     Scalar GREEN = new Scalar(0, 255, 0);
     FeatureDetector detector;
     DescriptorExtractor descriptor;
@@ -98,7 +99,7 @@ public class MainActivity extends Activity implements CameraBridgeViewBase.CvCam
 
     private void initializeOpenCVDependencies() throws IOException {
         mOpenCvCameraView.enableView();
-        detector = FeatureDetector.create(FeatureDetector.ORB);
+        detector= FeatureDetector.create(FeatureDetector.ORB);
         descriptor = DescriptorExtractor.create(DescriptorExtractor.ORB);
         matcher = DescriptorMatcher.create(DescriptorMatcher.BRUTEFORCE_HAMMING);
         img1 = new Mat();
@@ -110,6 +111,7 @@ public class MainActivity extends Activity implements CameraBridgeViewBase.CvCam
         img1.convertTo(img1, 0); //converting the image to match with the type of the cameras image
         descriptors1 = new Mat();
         keypoints1 = new MatOfKeyPoint();
+       // keypoints2= new MatOfKeyPoint();
         detector.detect(img1, keypoints1);
         descriptor.compute(img1, keypoints1, descriptors1);
 
@@ -131,10 +133,10 @@ public class MainActivity extends Activity implements CameraBridgeViewBase.CvCam
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_main);
-        mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.tutorial1_activity_java_surface_view);
+        mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.surfaceviewJava);
         mOpenCvCameraView.setVisibility(SurfaceView.VISIBLE);
         mOpenCvCameraView.setCvCameraViewListener(this);
-        tvName = (TextView) findViewById(R.id.text1);
+       // tvName = (TextView) findViewById(R.id.text1);
 
     }
 
@@ -182,7 +184,7 @@ public class MainActivity extends Activity implements CameraBridgeViewBase.CvCam
         // Matching
         MatOfDMatch matches = new MatOfDMatch();
         if (img1.type() == aInputFrame.type()) {
-            matcher.match(descriptors1, descriptors2, matches);
+            matcher.match(  descriptors1, descriptors2, matches);
         } else {
             return aInputFrame;
         }
